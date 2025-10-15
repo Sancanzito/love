@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is Love? A Feeling Called "Kilig"</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.7),
+                         0 0 20px rgba(255, 105, 180, 0.5),
+                         0 0 30px rgba(255, 105, 180, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        /* Envelope Button Styling */
+        .envelope-btn {
+            position: relative;
+            width: 180px;
+            height: 120px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            margin: 0 auto;
+            z-index: 5;
+            overflow: hidden;
+        }
+        
+        .envelope-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .envelope-btn:active {
+            transform: translateY(-2px);
+        }
+        
+        .envelope-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+        
+        .envelope-btn:hover::after {
+            transform: translateX(100%);
+        }
+        
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
+            border-radius: 10px;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(45deg, #ff5252, #ff6b6b);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            z-index: 3;
+        }
+        
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
+            border-radius: 10px;
+            z-index: 1;
+        }
+        
+        .letter {
+            position: absolute;
+            width: 90%;
+            height: 80%;
+            background: white;
+            border-radius: 5px;
+            top: 10%;
+            left: 5%;
+            z-index: 0;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .envelope-btn:hover .envelope-flap {
+            transform: rotateX(180deg);
+        }
+        
+        .envelope-btn:hover .letter {
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+        
+        .envelope-btn-text {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .envelope-btn:hover .envelope-btn-text {
+            transform: translateY(-5px);
+        }
+        
+        /* Heart icon styling with twinkle and expand */
+        .shorts-title {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .shorts-title i {
+            margin-right: 8px;
+            color: #ff0000;
+            animation: twinkle 2s infinite, expand 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        @keyframes expand {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Modal Styling */
+        .modal-content {
+            background-color: #f5e8c8;
+            font-family: 'Georgia', serif;
+            color: #3a2c1e;
+            position: relative;
+            min-height: 100vh;
+            border-radius: 0;
+            border: none;
+        }
+
+        .scroll-container {
+            background-image: url("paperold.jpg");
+            background-color: #f8f1e0;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin: 30px auto;
+            max-width: 900px;
+            position: relative;
+            border: 1px solid #d4c4a8;
+            z-index: 10;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #d4c4a8;
+            padding-bottom: 20px;
+        }
+
+        .modal-title {
+            color: #8b4513;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #a0522d;
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #d4c4a8;
+            padding-bottom: 5px;
+        }
+
+        p {
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .quote {
+            font-style: italic;
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-left: 3px solid #8b4513;
+            border-radius: 3px;
+        }
+
+        .photo-placeholder {
+            background-color: #e6d9c2;
+            height: 200px;
+            width:50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #8b4513;
+            border-radius: 5px;
+            color: #8b4513;
+            margin: 20px auto;
+        }
+        
+        /* Ensures the uploaded image is displayed */
+        .photo-placeholder img {
+            max-height: 100%;
+            width: auto;
+            z-index: 10; 
+        }
+
+        .heart {
+            position: fixed;
+            color: rgba(255, 0, 0, 0.3);
+            font-size: 20px;
+            z-index: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #d4c4a8;
+            color: #8b4513;
+        }
+
+        .highlight {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        /* Footsteps Animation - Now using Font Awesome Icons */
+        .wrap {
+            position: relative;
+            margin-top: 50px;
+            padding-bottom: 50px;
+            width: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .upper, .lower {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin: 10px 0;
+        }
+
+        .lower {
+            margin-left: 65px;
+            position: relative;
+            top: 0px;
+        }
+
+        .upper i, .lower i {
+            font-size: 2rem;
+            color: #8b4513;
+            opacity: 0;
+            animation: fadeIn 9s, fadeOut 9s;
+            animation-fill-mode: forwards;
+            animation-iteration-count: infinite;
+        }
+        
+        /* Adjusted the rotation for the feet icons to look more natural */
+        .upper i {
+            transform: rotate(-10deg);
+        }
+        .lower i {
+            transform: rotate(10deg);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            10% { opacity: 0.5; }
+            100% { opacity: 0.5; }
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 0.5; }
+            25% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Animation delays remain the same */
+        .upper i:first-child { animation-delay: 0.5s, 3.5s; }
+        .lower i:first-child { animation-delay: 1s, 4s; }
+        .upper i:nth-child(2) { animation-delay: 1.5s, 4.5s; }
+        .lower i:nth-child(2) { animation-delay: 2s, 5s; }
+        .upper i:nth-child(3) { animation-delay: 2.5s, 5.5s; }
+        .lower i:nth-child(3) { animation-delay: 3s, 6s; }
+        .upper i:nth-child(4) { animation-delay: 3.5s, 6.5s; }
+        .lower i:nth-child(4) { animation-delay: 4s, 7s; }
+        .upper i:nth-child(5) { animation-delay: 4.5s, 7.5s; }
+        .lower i:nth-child(5) { animation-delay: 5s, 8s; }
+        .upper i:nth-child(6) { animation-delay: 5.5s, 8.5s; }
+        .lower i:nth-child(6) { animation-delay: 6s, 9s; }
+        .upper i:nth-child(7) { animation-delay: 6.5s, 9.5s; }
+        .lower i:nth-child(7) { animation-delay: 7s, 10s; }
+        .upper i:nth-child(8) { animation-delay: 7.5s, 10.5s; }
+        .lower i:nth-child(8) { animation-delay: 8s, 11s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .shorts-player i {
+            margin-right: 5px;
+            font-size: 1.2rem;
+        }
+        
+        /* Modal specific styles */
+        .modal-dialog {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .modal-body {
+            padding: 0;
+            overflow-y: auto;
+            max-height: calc(100vh - 60px);
+        }
+        
+        .btn-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff6b6b;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 25;
+        }
+        
+        .btn-close:hover {
+            transform: rotate(90deg);
+            background: #ff5252;
+        }
+        
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .rotating-messages {
+  margin-top: 30px;
+  height: 80px;
+  position: relative;
+  width: 100%;
+}
+
+.message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 1.1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  padding: 0 20px;
+}
+
+.message.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+    </style>
+</head>
+<body>
+    <div class="shorts-title">
+       <i class="fas fa-heart"></i><p>What is love? a feeling called "kilig"</p>
+    </div>
+    
+    <div class="container">
+        <h1>Secret Love Letter</h1>
+        <div class="envelope-btn" data-bs-toggle="modal" data-bs-target="#letterModal">
+            <div class="envelope">
+                <div class="envelope-front">
+                    <i class="fas fa-heart" style="color: white; font-size: 2rem;"></i>
+                </div>
+                <div class="envelope-flap"></div>
+                <div class="envelope-back"></div>
+                <div class="letter">Open Me</div>
+            </div>
+            <div class="envelope-btn-text">Open Letter</div>
+        </div>
+        <div class="rotating-messages">
+  <div class="message active">Naranasan mo na ba na kapag nasa tabi si crush...</div>
+  <div class="message">Biglang bumibilis ang tibok ng iyong puso at parang nagiging uncomfortable ka?</div>
+  <div class="message">At napapaisip ka...</div>
+  <div class="message">Is she the one for me? Is this true love?</div>
+  <div class="message">Click the envelope to see the message...</div>
+</div>
+    </div>
+    
+    <div class="hearts" id="heartsContainer"></div>
+
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="letterModal" tabindex="-1" aria-labelledby="letterModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="scroll-container">
+                        <div class="header-section">
+                            <h1 class="modal-title">What Is Love?</h1>
+                            <h2>A Feeling Called "Kilig"</h2>
+                        </div>
+
+                        <p>Naranasan mo na ba na kapag nasa tabi si crush, biglang bumibilis ang tibok ng iyong puso at parang nagiging uncomfortable ka? Nung nasa high school pa ako, tuwing nagkakataon na magkasama kami sa grupo o nagkakalapit kami, napapabilis talaga ang tibok ng puso ko. I would ask myself, "Is she the one for me? Is this true love?"</p>
+
+                        <div class="quote">
+                            "It is sad not to love, but it is sadder not to be able to love." - Miguel de Unamuno
+                        </div>
+
+                        <p>For me, I once believed that the fast beating of my heart and the feeling of "kilig" meant love at first sight. During those days, madalas akong nagpapansin sa kanya dahil ang cute niya tingnan, at gusto ko ang ugali niyang medyo masungit. Pero nasaktan ako nang malaman kong may boyfriend na pala siya. I lost my motivation to go to school, as if my whole world revolved around what happened.</p>
+
+                        <div class="photo-placeholder">
+                            <img src="high.png" class="img-fluid" alt="A boy and a girl holding hands in a school hallway">
+                        </div>
+
+                        <h2>Questions That Changed My Perspective</h2>
+
+                        <p>That heartbreak made me ask myself several questions:</p>
+
+                        <ul>
+                            <li>What does it really feel like to have a girlfriend?</li>
+                            <li>Why do I feel this way whenever I see her?</li>
+                            <li>And most importantly, "What is love?"</li>
+                        </ul>
+
+                        <p>As I continued to grow and experience life, I began to wonder what it truly means to be in a relationship. I used to think that having a girlfriend meant maturity and happiness — a sign that you're enjoying life. But as time went by, I learned to distinguish infatuation from love.</p>
+
+                        <h2>Realizing the Difference Between Infatuation and Love</h2>
+
+                        <p>According to the dictionary, infatuation means "an intense but short-lived passion or admiration for someone or something." Then I realized, ahhh, so nagka-crush lang pala ako. I compared this to the definition of love in the Bible, particularly in <span class="highlight">1 Corinthians 13:4-7</span>, which describes love as selfless, patient, and enduring.</p>
+
+                        <p>That was the moment I understood — what I once thought was love was only infatuation.</p>
+
+                        <div class="photo-placeholder">
+                            <img src="family.png" class="img-fluid" alt="family">
+                        </div>
+
+                        <h2>A Mother's Love as the Purest Form</h2>
+
+                        <p>I remembered how, whenever I got sick as a child, my mother would always stay by my side — checking my temperature, preparing my medicine, and even waking me up in the middle of the night so I could take it. At times, I would get irritated because she disturbed my sleep, but now I realize that those sacrifices were acts of genuine love. Through her, I learned that love is not just about words or feelings, but about actions and commitment.</p>
+
+                        <h2>Love Originally comes from our Creator</h2>
+
+                        <p>Love, in its purest form, was first given to us by God. It is the same kind of love our parents show when they continue to care for us even when we are stubborn or selfish. That's why it's so important to spend time with our parents, our lolos and lolas, our siblings — our family. Let us make them feel loved while they are still with us.</p>
+
+                        <div class="quote">
+                            "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life." - John 3:16
+                        </div>
+
+                        <h2>The Illusion of Connection</h2>
+
+                        <p>Nowadays, people often spend more time on social media, trying to show that they are "connected" with the world. Pero minsan, kahit online tayong konektado, sa totoo lang ay malayo tayo sa isa't isa. Minsan kapag may problema, doon tayo tumatakbo — nagpo-post, o naghahanap ng makakausap o partner sa chat. But let it be known, my friends, that one of the greatest gifts given to us by God is human intimacy.</p>
+
+                        <p>As human beings, we have the capacity to feel, to touch, and to understand — and therefore, to love and be loved. No man is an island, but a part of a whole. Human connection is deeply rooted in who we are. Through our relationships, we experience joy and pain, we make mistakes, we learn, and we grow.</p>
+
+                        <div class="photo-placeholder">
+                            <img src="friend.png" alt="friends" class="img-fluid">
+                        </div>
+
+                        <h2>The True Essence of Love</h2>
+
+                        <p>In the end, I realized that love is not the same as the romance we often see in movies. Love takes many forms — as the Greeks describe it: <span class="highlight">agape</span> (selfless love), <span class="highlight">eros</span> (romantic love), <span class="highlight">philia</span> (friendship), and <span class="highlight">storge</span> (familial love). But for me, the highest essence of love is found in enduring, forgiving, and growing together despite differences.</p>
+
+                        <div class="quote">
+                            "To have and to hold, from this day forward, for better or for worse, in sickness and in health, till death do us part."
+                        </div>
+
+                        <p style="text-align: center; font-size: 1.3rem; font-weight: bold; margin-top: 30px;">
+                            So, I ask you — For you, what is love?
+                        </p>
+
+                        <div class="footer">
+                            <p>Reflections on Love and Relationships</p>
+                        </div>
+                        
+                        <div class="wrap">
+                            <div class="upper">
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                            </div>
+                            <div class="lower">
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                                <i class="fas fa-shoe-prints"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+
+            // Random position
+            const left = Math.random() * 100;
+            const top = Math.random() * 100;
+
+            heart.style.left = `${left}%`;
+            heart.style.top = `${top}%`;
+
+            // Random size
+            const size = Math.random() * 20 + 10;
+            heart.style.fontSize = `${size}px`;
+
+            // Random animation delay
+            const delay = Math.random() * 5;
+            heart.style.animationDelay = `${delay}s`;
+
+            document.body.appendChild(heart);
+
+            // Remove heart after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 500);
+
+        // Create initial hearts
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createHeart, i * 200);
+        }
+        // Rotating messages
+const messages = document.querySelectorAll('.message');
+let currentMessage = 0;
+
+function rotateMessages() {
+  // Hide current message
+  messages[currentMessage].classList.remove('active');
+  
+  // Move to next message
+  currentMessage = (currentMessage + 1) % messages.length;
+  
+  // Show next message
+  messages[currentMessage].classList.add('active');
+}
+
+// Start rotation every 3 seconds (1.2s animation + 1.8s display time)
+setInterval(rotateMessages,5000);
+
+// Initial delay
+setTimeout(() => {
+  rotateMessages();
+}, 5000);
+    </script>
+</body>
+</html>
